@@ -232,6 +232,11 @@ func main() {
 	if _, err := os.Stat(checkdocument); os.IsNotExist(err) {
 		fmt.Println("Creating document directory.....")
 		os.Mkdir(checkdocument, 0711)
+	} else {
+		fmt.Println("Deleting file document ------------")
+		os.RemoveAll(checkdocument)
+		fmt.Println("Creating document directory again.....")
+		os.Mkdir(checkdocument, 0711)
 	}
 
 	checklib := filepath.Join(pwd, "lib")
@@ -242,12 +247,6 @@ func main() {
 		// filepath.Walk(srcFolder)
 
 		filepath.Walk(srcFolder, WriteLibTodocument)
-		// cpCmd := exec.Command("cp", "-rf", srcFolder, destFolder)
-		// err := cpCmd.Run()
-		// if err != nil {
-		// 	fmt.Println("Couldn't copy lib")
-		// 	log.Fatalln("%s", err)
-		// }
 		fmt.Println("copied lib to document")
 	}
 
@@ -255,7 +254,7 @@ func main() {
 	checkdocuments := checkdocument
 	header := filepath.Join(checkdoc, "header.tmpl")
 	footer := filepath.Join(checkdoc, "footer.tmpl")
-	checkassests := filepath.Join(checkdoc, "assests")
+	// checkassests := filepath.Join(checkdoc, "assests")
 	// fmt.Println(header, footer, checkassests)
 	files, _ := ioutil.ReadDir(checkdoc)
 
@@ -263,19 +262,13 @@ func main() {
 	for _, file := range files {
 
 		str := filepath.Join(checkdoc, file.Name())
-		if strings.Compare(str, checkassests) == 0 {
-
-			srcFolder := str
+		if file.IsDir() {
+			strx := filepath.Join(checkdoc, file.Name())
+			srcFolder := strx
 			destFolder = checkdocuments
 
 			filepath.Walk(srcFolder, WriteAssestsTodocument)
-			// cpCmd := exec.Command("cp", "-rf", srcFolder, destFolder)
-			// err := cpCmd.Run()
-			// if err != nil {
-			// 	fmt.Println("Couldn't copy assests")
-			// 	log.Fatalln("%s", err)
-			// }
-			fmt.Println("copied assests to document")
+			fmt.Println("Directory copied to document is : ", file.Name())
 		} else if strings.Compare(header, str) != 0 && strings.Compare(footer, str) != 0 {
 
 			_, sepr := filepath.Split(str)
@@ -345,20 +338,3 @@ func main() {
 		}
 	}
 }
-
-/*
-	if strings.Compare(str, checkassests) == 0 {
-
-		srcFolder := str
-		destFolder = checkdocuments
-
-		filepath.Walk(srcFolder, WriteAssestsTodocument)
-		// cpCmd := exec.Command("cp", "-rf", srcFolder, destFolder)
-		// err := cpCmd.Run()
-		// if err != nil {
-		// 	fmt.Println("Couldn't copy assests")
-		// 	log.Fatalln("%s", err)
-		// }
-		fmt.Println("copied assests to document")
-	} else
-*/
