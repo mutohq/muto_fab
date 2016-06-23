@@ -46,27 +46,26 @@ func writeLines(lines []string, path string) error {
 	return w.Flush()
 }
 
-//MakeDirlib creates new directory in the destination directory
-func MakeDirlib(fp string) {
+//MakeDirLib creates new directory in the destination directory
+func MakeDirLib(fp string) {
 	str := destFolder
-	cp := fp	
+	cp := fp
 	storesub := strings.Split(cp, string(os.PathSeparator))
 	// fmt.Println(storesub)
-	var newpath []string 
+	var newpath []string
 	i := 0
 	for {
-		if strings.Compare(storesub[i], "lib") == 0 {			
-			newpath = append(newpath, storesub[i])
-			i = i+1
+		if strings.Compare(storesub[i], "muto-fab") == 0 {
+			i = i + 1
 			break
 		} else {
 			i = i + 1
 		}
 	}
 
-	var j int 
-	for j = i ; j < len(storesub) ; j = j+1 {
-		newpath = append(newpath, storesub[j])		
+	var j int
+	for j = i; j < len(storesub); j = j + 1 {
+		newpath = append(newpath, storesub[j])
 	}
 
 	for _, x := range newpath {
@@ -77,36 +76,35 @@ func MakeDirlib(fp string) {
 	os.Mkdir(str, 0711)
 }
 
-// Copyfilelib copies the file to the destination
-func Copyfilelib(fp string) {
-	
+// CopyfileLib copies the file to the destination
+func CopyfileLib(fp string) {
+
 	str := destFolder
 	cp := fp
 	dir, file := filepath.Split(cp)
 	// fmt.Println(dir)
 	// fmt.Println(file)
 	storesub := strings.Split(dir, string(os.PathSeparator))
-	var newpath []string 
+	var newpath []string
 	i := 0
 	for {
-		if strings.Compare(storesub[i], "lib") == 0 {			
-			newpath = append(newpath, storesub[i])
-			i = i+1
+		if strings.Compare(storesub[i], "muto-fab") == 0 {
+			i = i + 1
 			break
 		} else {
 			i = i + 1
 		}
 	}
 
-	var j int 
-	for j = i ; j < len(storesub) ; j = j+1 {
-		newpath = append(newpath, storesub[j])		
+	var j int
+	for j = i; j < len(storesub); j = j + 1 {
+		newpath = append(newpath, storesub[j])
 	}
 
 	for _, x := range newpath {
 		str = filepath.Join(str, x)
 	}
-	
+
 	str = filepath.Join(str, file)
 	// fmt.Println(str)
 	lines, err := readLines(fp)
@@ -123,11 +121,11 @@ func Copyfilelib(fp string) {
 // WriteLibTodocument writes the content of lib into document/lib
 func WriteLibTodocument(fp string, fi os.FileInfo, err error) error {
 	if fi.IsDir() {
-		MakeDirlib(fp)
+		MakeDirLib(fp)
 		// fmt.Println("Src Dir : ", fp)
 		// fmt.Println("Dest Dir : ", str)
 	} else {
-		Copyfilelib(fp)
+		CopyfileLib(fp)
 		// fmt.Println("Src Lib File : ", fp)
 		// fmt.Println("Dest File : ", str)
 	}
@@ -137,24 +135,23 @@ func WriteLibTodocument(fp string, fi os.FileInfo, err error) error {
 //MakeDirassests creates new directory in the destination directory
 func MakeDirassests(fp string) {
 	str := destFolder
-	cp := fp	
+	cp := fp
 	storesub := strings.Split(cp, string(os.PathSeparator))
 	// fmt.Println(storesub)
-	var newpath []string 
+	var newpath []string
 	i := 0
 	for {
-		if strings.Compare(storesub[i], "assests") == 0 {			
-			newpath = append(newpath, storesub[i])
-			i = i+1
+		if strings.Compare(storesub[i], "doc-templates") == 0 {
+			i = i + 1
 			break
 		} else {
 			i = i + 1
 		}
 	}
 
-	var j int 
-	for j = i ; j < len(storesub) ; j = j+1 {
-		newpath = append(newpath, storesub[j])		
+	var j int
+	for j = i; j < len(storesub); j = j + 1 {
+		newpath = append(newpath, storesub[j])
 	}
 
 	for _, x := range newpath {
@@ -173,27 +170,26 @@ func Copyfileassests(fp string) {
 	// fmt.Println(dir)
 	// fmt.Println(file)
 	storesub := strings.Split(dir, string(os.PathSeparator))
-	var newpath []string 
+	var newpath []string
 	i := 0
 	for {
-		if strings.Compare(storesub[i], "assests") == 0 {			
-			newpath = append(newpath, storesub[i])
-			i = i+1
+		if strings.Compare(storesub[i], "doc-templates") == 0 {
+			i = i + 1
 			break
 		} else {
 			i = i + 1
 		}
 	}
 
-	var j int 
-	for j = i ; j < len(storesub) ; j = j+1 {
-		newpath = append(newpath, storesub[j])		
+	var j int
+	for j = i; j < len(storesub); j = j + 1 {
+		newpath = append(newpath, storesub[j])
 	}
 
 	for _, x := range newpath {
 		str = filepath.Join(str, x)
 	}
-	
+
 	str = filepath.Join(str, file)
 	// fmt.Println(str)
 	lines, err := readLines(fp)
@@ -261,15 +257,15 @@ func main() {
 	footer := filepath.Join(checkdoc, "footer.tmpl")
 	checkassests := filepath.Join(checkdoc, "assests")
 	// fmt.Println(header, footer, checkassests)
-
 	files, _ := ioutil.ReadDir(checkdoc)
 
+	
 	for _, file := range files {
 
 		str := filepath.Join(checkdoc, file.Name())
-
 		if strings.Compare(str, checkassests) == 0 {
-			srcFolder := checkassests
+
+			srcFolder := str
 			destFolder = checkdocuments
 
 			filepath.Walk(srcFolder, WriteAssestsTodocument)
@@ -334,7 +330,35 @@ func main() {
 
 				fmt.Println("Created file : ", destfilename)
 
+			} else {
+				// fmt.Println(str)
+				_, fileExtra := filepath.Split(str)
+				destination := filepath.Join(checkdocuments, fileExtra)
+				lines, err := readLines(str)
+				if err != nil {
+					log.Fatalf("readLines h : %s", err)
+				}
+				if err := writeLines(lines, destination); err != nil {
+					log.Fatalf("writeLines h : %s", err)
+				}
 			}
 		}
 	}
 }
+
+/*
+	if strings.Compare(str, checkassests) == 0 {
+
+		srcFolder := str
+		destFolder = checkdocuments
+
+		filepath.Walk(srcFolder, WriteAssestsTodocument)
+		// cpCmd := exec.Command("cp", "-rf", srcFolder, destFolder)
+		// err := cpCmd.Run()
+		// if err != nil {
+		// 	fmt.Println("Couldn't copy assests")
+		// 	log.Fatalln("%s", err)
+		// }
+		fmt.Println("copied assests to document")
+	} else
+*/
