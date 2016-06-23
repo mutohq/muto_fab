@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	// "strconv"
 	// "os/exec"
 	"path/filepath"
 	"strings"
@@ -48,37 +49,86 @@ func writeLines(lines []string, path string) error {
 //MakeDirlib creates new directory in the destination directory
 func MakeDirlib(fp string) {
 	str := destFolder
-	cp := fp
-	storesub := strings.Split(cp, os.PathSeparator)
-	fmt.Println(storesub)
+	cp := fp	
+	storesub := strings.Split(cp, string(os.PathSeparator))
+	// fmt.Println(storesub)
+	var newpath []string 
+	i := 0
+	for {
+		if strings.Compare(storesub[i], "lib") == 0 {			
+			newpath = append(newpath, storesub[i])
+			i = i+1
+			break
+		} else {
+			i = i + 1
+		}
+	}
 
+	var j int 
+	for j = i ; j < len(storesub) ; j = j+1 {
+		newpath = append(newpath, storesub[j])		
+	}
+
+	for _, x := range newpath {
+		str = filepath.Join(str, x)
+	}
+	// fmt.Println("---------------------------------------")
+	// fmt.Println("Inside :  ",str)
 	os.Mkdir(str, 0711)
 }
 
 // Copyfilelib copies the file to the destination
 func Copyfilelib(fp string) {
+	
 	str := destFolder
 	cp := fp
+	dir, file := filepath.Split(cp)
+	// fmt.Println(dir)
+	// fmt.Println(file)
+	storesub := strings.Split(dir, string(os.PathSeparator))
+	var newpath []string 
+	i := 0
+	for {
+		if strings.Compare(storesub[i], "lib") == 0 {			
+			newpath = append(newpath, storesub[i])
+			i = i+1
+			break
+		} else {
+			i = i + 1
+		}
+	}
 
-	lines, err := readLines(cp)
+	var j int 
+	for j = i ; j < len(storesub) ; j = j+1 {
+		newpath = append(newpath, storesub[j])		
+	}
+
+	for _, x := range newpath {
+		str = filepath.Join(str, x)
+	}
+	
+	str = filepath.Join(str, file)
+	// fmt.Println(str)
+	lines, err := readLines(fp)
 	if err != nil {
 		log.Fatalf("readLines h : %s", err)
 	}
 	if err := writeLines(lines, str); err != nil {
 		log.Fatalf("writeLines h : %s", err)
 	}
-	fmt.Println("Crap ", str)
+
+	// fmt.Println("Crap ", str)
 }
 
 // WriteLibTodocument writes the content of lib into document/lib
 func WriteLibTodocument(fp string, fi os.FileInfo, err error) error {
 	if fi.IsDir() {
 		MakeDirlib(fp)
-		fmt.Println("Src Dir : ", fp)
+		// fmt.Println("Src Dir : ", fp)
 		// fmt.Println("Dest Dir : ", str)
 	} else {
-		// Copyfilelib(fp)
-		fmt.Println("Src File : ", fp)
+		Copyfilelib(fp)
+		// fmt.Println("Src Lib File : ", fp)
 		// fmt.Println("Dest File : ", str)
 	}
 	return nil
@@ -87,10 +137,31 @@ func WriteLibTodocument(fp string, fi os.FileInfo, err error) error {
 //MakeDirassests creates new directory in the destination directory
 func MakeDirassests(fp string) {
 	str := destFolder
-	cp := fp
-	// storesub := strings.Split(cp, os.PathSeparator)
+	cp := fp	
+	storesub := strings.Split(cp, string(os.PathSeparator))
 	// fmt.Println(storesub)
+	var newpath []string 
+	i := 0
+	for {
+		if strings.Compare(storesub[i], "assests") == 0 {			
+			newpath = append(newpath, storesub[i])
+			i = i+1
+			break
+		} else {
+			i = i + 1
+		}
+	}
 
+	var j int 
+	for j = i ; j < len(storesub) ; j = j+1 {
+		newpath = append(newpath, storesub[j])		
+	}
+
+	for _, x := range newpath {
+		str = filepath.Join(str, x)
+	}
+	// fmt.Println("---------------------------------------")
+	// fmt.Println("Inside Assests :  ",str)
 	os.Mkdir(str, 0711)
 }
 
@@ -98,26 +169,52 @@ func MakeDirassests(fp string) {
 func Copyfileassests(fp string) {
 	str := destFolder
 	cp := fp
+	dir, file := filepath.Split(cp)
+	// fmt.Println(dir)
+	// fmt.Println(file)
+	storesub := strings.Split(dir, string(os.PathSeparator))
+	var newpath []string 
+	i := 0
+	for {
+		if strings.Compare(storesub[i], "assests") == 0 {			
+			newpath = append(newpath, storesub[i])
+			i = i+1
+			break
+		} else {
+			i = i + 1
+		}
+	}
 
-	lines, err := readLines(cp)
+	var j int 
+	for j = i ; j < len(storesub) ; j = j+1 {
+		newpath = append(newpath, storesub[j])		
+	}
+
+	for _, x := range newpath {
+		str = filepath.Join(str, x)
+	}
+	
+	str = filepath.Join(str, file)
+	// fmt.Println(str)
+	lines, err := readLines(fp)
 	if err != nil {
 		log.Fatalf("readLines h : %s", err)
 	}
 	if err := writeLines(lines, str); err != nil {
 		log.Fatalf("writeLines h : %s", err)
 	}
-	fmt.Println("Crap ", str)
+	// fmt.Println("Crap ", str)
 }
 
 //WriteAssestsTodocument function
 func WriteAssestsTodocument(fp string, fi os.FileInfo, err error) error {
 	if fi.IsDir() {
-		// MakeDirassests(fp)
-		fmt.Println("Src Assests Dir : ", fp)
+		MakeDirassests(fp)
+		// fmt.Println("Src Assests Dir : ", fp)
 		// fmt.Println("Dest Dir : ", str)
 	} else {
-		// Copyfileassests(fp)
-		fmt.Println("Src Lib File : ", fp)
+		Copyfileassests(fp)
+		// fmt.Println("Src Assests File : ", fp)
 		// fmt.Println("Dest File : ", str)
 	}
 	return nil
