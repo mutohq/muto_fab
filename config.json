@@ -1,0 +1,8 @@
+{
+    "sourceDir" : "/home/ashu/Desktop/intern/git/muto-fab/doc-templates",
+    "destDir" : "/home/ashu/Desktop/intern/git/muto-fab/documet",
+    "headerTmpl" : "/home/ashu/Desktop/intern/git/muto-fab/doc-templates/header.tmpl",
+    "footerTmpl" : "/home/ashu/Desktop/intern/git/muto-fab/doc-templates/footer.tmpl",
+    "tmplExtInput" : "tmpl", 
+    "tmplExtOutput" : ".html"
+}
