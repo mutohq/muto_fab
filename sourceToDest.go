@@ -12,6 +12,7 @@ import (
 )
 
 var destFolder string
+var Sourcedirname string
 
 // readLines reads a whole file into memory
 // and returns a slice of its lines.
@@ -54,7 +55,7 @@ func MakeDirSource(fp string) {
 	var newpath []string
 	i := 0
 	for {
-		if strings.Compare(storesub[i], "doc-templates") == 0 {
+		if strings.Compare(storesub[i], Sourcedirname) == 0 {
 			i = i + 1
 			break
 		} else {
@@ -86,7 +87,7 @@ func CopyfileSource(fp string) {
 	var newpath []string
 	i := 0
 	for {
-		if strings.Compare(storesub[i], "doc-templates") == 0 {
+		if strings.Compare(storesub[i], Sourcedirname) == 0 {
 			i = i + 1
 			break
 		} else {
@@ -172,17 +173,27 @@ func main() {
 	FooterTMPL := jsonconfig.FooterTmpl
 	tmplExtINPUT := jsonconfig.TmplExtInput
 	tmplExtOUTPUT := jsonconfig.TmplExtOutput
+	// fmt.Println(SourceDIR)
+	getsourcefolder := strings.Split(SourceDIR, string(os.PathSeparator))
+	// fmt.Println(getsourcefolder[len(getsourcefolder)-1])
+	Sourcedirname = getsourcefolder[len(getsourcefolder)-1]
 
+	getdestname := strings.Split(DestDIR, string(os.PathSeparator))
+	destname := getdestname[len(getdestname)-1]
+	// fmt.Println(Sourcedirname)
 	// pwd := configloc
 	checkdocument := DestDIR
 
 	if _, err := os.Stat(checkdocument); os.IsNotExist(err) {
-		fmt.Println("Creating document directory.....")
+		fmt.Print("Creating directory ", destname)
+		fmt.Println("..............")
 		os.Mkdir(checkdocument, 0711)
 	} else {
-		fmt.Println("Deleting file document ------------")
+		fmt.Print("Deleting ", destname)
+		fmt.Println("..............")
 		os.RemoveAll(checkdocument)
-		fmt.Println("Creating document directory again.....")
+		fmt.Print("Creating directory ", destname)
+		fmt.Println(" again..............")
 		os.Mkdir(checkdocument, 0711)
 	}
 
