@@ -132,12 +132,13 @@ func WriteSourceToDestination(fp string, fi os.FileInfo, err error) error {
 
 // ConfigStructure has source, dest etc
 type ConfigStructure struct {
-	SourceDir     string `json:"sourceDir"`
-	DestDir       string `json:"destDir"`
-	HeaderTmpl    string `json:"headerTmpl"`
-	FooterTmpl    string `json:"footerTmpl"`
-	TmplExtInput  string `json:"tmplExtInput"`
-	TmplExtOutput string `json:"tmplExtOutput"`
+	SourceDir          string   `json:"sourceDir"`
+	DestDir            string   `json:"destDir"`
+	HeaderTmpl         string   `json:"headerTmpl"`
+	FooterTmpl         string   `json:"footerTmpl"`
+	TmplExtInput       string   `json:"tmplExtInput"`
+	TmplExtOutput      string   `json:"tmplExtOutput"`
+	OtherFoldersToCopy []string `json:"otherfolderstocopy"`
 }
 
 func main() {
@@ -153,6 +154,7 @@ func main() {
 		log.Fatal(err)
 	}
 	// fmt.Println(os.Args[1])
+	// fmt.Println(configloc)
 	configAbsLoc := filepath.Join(configloc, os.Args[1])
 	// fmt.Println(configAbsLoc)
 
@@ -165,7 +167,11 @@ func main() {
 	// fmt.Printf("%s\n", string(confile))
 	// struct of config file
 	var jsonconfig ConfigStructure
-	json.Unmarshal(confile, &jsonconfig)
+	erraa := json.Unmarshal(confile, &jsonconfig)
+	if erraa != nil {
+		fmt.Println(erraa)
+		os.Exit(1)
+	}
 	// fmt.Printf("Results: %v\n", jsonconfig)
 	SourceDIR := jsonconfig.SourceDir
 	DestDIR := jsonconfig.DestDir
@@ -173,10 +179,15 @@ func main() {
 	FooterTMPL := jsonconfig.FooterTmpl
 	tmplExtINPUT := jsonconfig.TmplExtInput
 	tmplExtOUTPUT := jsonconfig.TmplExtOutput
+	OTHERFOLDER := jsonconfig.OtherFoldersToCopy
+	// fmt.Println(OTHERFOLDER, len(OTHERFOLDER))
+
 	// fmt.Println(SourceDIR)
 	getsourcefolder := strings.Split(SourceDIR, string(os.PathSeparator))
 	// fmt.Println(getsourcefolder[len(getsourcefolder)-1])
-	Sourcedirname = getsourcefolder[len(getsourcefolder)-1]
+	x := getsourcefolder[len(getsourcefolder)-1]
+	Sourcedirname = x
+	fmt.Println(x)
 
 	getdestname := strings.Split(DestDIR, string(os.PathSeparator))
 	destname := getdestname[len(getdestname)-1]
@@ -197,10 +208,25 @@ func main() {
 		os.Mkdir(checkdocument, 0711)
 	}
 
+	/*code for copying otherfolders*/
+	for _, folder := range OTHERFOLDER {
+		str := strings.Split(configloc, string(os.PathSeparator))
+		x1 := str[len(str)-1]
+		Sourcedirname = x1
+		// fmt.Println(x, folder)
+		destFolder = DestDIR
+		copied := strings.Split(folder, string(os.PathSeparator))
+		copiedfolder := copied[len(copied)-1]
+		filepath.Walk(folder, WriteSourceToDestination)
+		fmt.Print("Directory copied to ", destname)
+		fmt.Println(" is : ", copiedfolder)
+	}
+
 	checkdoc := SourceDIR
 	checkdocuments := checkdocument
 	header := HeaderTMPL
 	footer := FooterTMPL
+	Sourcedirname = x
 	// checkassests := filepath.Join(checkdoc, "assests")
 	// fmt.Println(header, footer, checkassests)
 	files, _ := ioutil.ReadDir(checkdoc)
@@ -224,7 +250,7 @@ func main() {
 			// fmt.Println(filename[1])
 			if strings.Compare(filename[1], tmplExtINPUT) == 0 {
 
-				destfilename := filename[0] + tmplExtOUTPUT
+				destfilename := filename[0] + "." + tmplExtOUTPUT
 				destpath := filepath.Join(checkdocuments, destfilename)
 
 				lines, err := readLines(header)
