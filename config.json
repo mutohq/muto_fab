@@ -4,5 +4,8 @@
     "headerTmpl" : "/home/ashu/Desktop/intern/git/muto-fab/doc-templates/header.tmpl",
     "footerTmpl" : "/home/ashu/Desktop/intern/git/muto-fab/doc-templates/footer.tmpl",
     "tmplExtInput" : "tmpl", 
-    "tmplExtOutput" : ".html"
+    "tmplExtOutput" : "html",
+    "otherfolderstocopy" : [
+        "/home/ashu/Desktop/intern/git/muto-fab/lib"
+    ]
 }
