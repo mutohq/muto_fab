@@ -2,17 +2,17 @@
 
 This repo copies the content of source directory to destination directory.
 It also includes the following operation :
-Let we have :
- * [header.xyz] (https://github.com/mutohq/muto_fab/blob/master/doc-templates/header.tmpl) 
- * [footer.xyz] (https://github.com/mutohq/muto_fab/blob/master/doc-templates/footer.tmpl)
- * [one of body file.xyz] (https://github.com/mutohq/muto_fab/blob/master/doc-templates/file1.tmpl)
-Then output will be :  
- * [output.abc] (https://github.com/mutohq/muto_fab/blob/master/document/file1.html)
+* Let we have :
+    * [header.xyz] (https://github.com/mutohq/muto_fab/blob/master/doc-templates/header.tmpl) 
+    * [footer.xyz] (https://github.com/mutohq/muto_fab/blob/master/doc-templates/footer.tmpl)
+    * [one of body file.xyz] (https://github.com/mutohq/muto_fab/blob/master/doc-templates/file1.tmpl)
+* Then output will be :  
+    * [output.abc] (https://github.com/mutohq/muto_fab/blob/master/document/file1.html)
 
- * [Sample I/O] (https://github.com/mutohq/muto_fab/blob/master/Sample.md)
+    * [Sample I/O] (https://github.com/mutohq/muto_fab/blob/master/Sample.md)
 
 ## How it works 
- * [configfile] (https://github.com/mutohq/muto_fab/blob/master/config.json)
+* [configfile] (https://github.com/mutohq/muto_fab/blob/master/config.json)
  ```
  {
     "sourceDir" : "/home/ashu/Desktop/intern/git/muto-fab/doc-templates",
