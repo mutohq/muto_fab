@@ -258,7 +258,6 @@ func main() {
 	// fmt.Println(header, footer, checkassests)
 	files, _ := ioutil.ReadDir(checkdoc)
 
-	
 	for _, file := range files {
 
 		str := filepath.Join(checkdoc, file.Name())
