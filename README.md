@@ -12,7 +12,8 @@ It also includes the following operation :
     * [Sample I/O] (https://github.com/mutohq/muto_fab/blob/master/Sample.md)
 
 ## How it works 
-* [configfile] (https://github.com/mutohq/muto_fab/blob/master/config.json)
+
+* config example for linux
  ```
  {
     "sourceDir" : "/home/ashu/Desktop/intern/git/muto-fab/doc-templates",
@@ -27,6 +28,22 @@ It also includes the following operation :
 }
 
  ```
+* config example for windows
+  ```
+ {
+    "sourceDir" : "E:\\Fabrica\\templates",
+    "destDir" : "E:\\Fabrica\\documentation",
+    "headerTmpl" : "E:\\Fabrica\\templates\\header.tmpl",
+    "footerTmpl" : "E:\\Fabrica\\templates\\footer.tmpl",
+    "tmplExtInput" : "tmpl", 
+    "tmplExtOutput" : "html",
+    "otherfolderstocopy" : [
+        "E:\\Fabrica\\lib"
+    ]
+}
+
+ ```
+ 
 * `sourceDir`:
     It is the path having header, footer, body and assests files.
 * `destDir`:
